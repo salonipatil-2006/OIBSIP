@@ -1,0 +1,628 @@
+/* =========================================
+   PREMIUM CALCULATOR
+   OASIS INFOBYTE - Web Development
+========================================= */
+
+
+/* ---------- RESET ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* ---------- BODY ---------- */
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.35), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.25), transparent 30%),
+        linear-gradient(135deg, #070b18, #111827 50%, #080d1c);
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+
+/* ---------- DECORATIVE BACKGROUND ---------- */
+
+body::before {
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    border-radius: 50%;
+
+    background: rgba(139, 92, 246, 0.12);
+
+    filter: blur(80px);
+
+    top: -100px;
+    left: -100px;
+}
+
+
+body::after {
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background: rgba(34, 211, 238, 0.10);
+
+    filter: blur(80px);
+
+    bottom: -100px;
+    right: -80px;
+}
+
+
+/* ---------- CALCULATOR ---------- */
+
+.calculator {
+    width: 380px;
+
+    padding: 28px;
+
+    position: relative;
+
+    z-index: 2;
+
+    border-radius: 32px;
+
+    background: rgba(15, 23, 42, 0.78);
+
+    backdrop-filter: blur(25px);
+
+    -webkit-backdrop-filter: blur(25px);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.55),
+        inset 0 1px 1px rgba(255, 255, 255, 0.08);
+
+    animation: calculatorAppear 0.7s ease;
+}
+
+
+/* ---------- CALCULATOR GLOW ---------- */
+
+.calculator::before {
+    content: "";
+
+    position: absolute;
+
+    inset: -2px;
+
+    border-radius: 34px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(139, 92, 246, 0.35),
+        transparent 40%,
+        rgba(34, 211, 238, 0.25)
+    );
+
+    z-index: -1;
+
+    filter: blur(8px);
+
+    opacity: 0.6;
+}
+
+
+/* ---------- HEADER ---------- */
+
+.calculator h1 {
+    text-align: center;
+
+    color: #ffffff;
+
+    font-size: 28px;
+
+    font-weight: 600;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 22px;
+
+    text-shadow:
+        0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+
+/* Small decorative line */
+
+.calculator h1::after {
+    content: "";
+
+    display: block;
+
+    width: 45px;
+    height: 3px;
+
+    margin: 9px auto 0;
+
+    border-radius: 10px;
+
+    background: linear-gradient(
+        90deg,
+        #8b5cf6,
+        #22d3ee
+    );
+
+    box-shadow:
+        0 0 12px rgba(139, 92, 246, 0.8);
+}
+
+
+/* ---------- DISPLAY ---------- */
+
+.display {
+    width: 100%;
+
+    min-height: 125px;
+
+    padding: 20px;
+
+    margin-bottom: 22px;
+
+    border-radius: 22px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    align-items: flex-end;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(3, 7, 18, 0.95),
+            rgba(15, 23, 42, 0.85)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    box-shadow:
+        inset 0 3px 12px rgba(0, 0, 0, 0.45),
+        0 8px 25px rgba(0, 0, 0, 0.20);
+}
+
+
+/* ---------- PREVIOUS EXPRESSION ---------- */
+
+.previous-display {
+    min-height: 24px;
+
+    width: 100%;
+
+    text-align: right;
+
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 15px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 7px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+}
+
+
+/* ---------- CURRENT RESULT ---------- */
+
+.current-display {
+    width: 100%;
+
+    text-align: right;
+
+    color: #ffffff;
+
+    font-size: 40px;
+
+    font-weight: 500;
+
+    letter-spacing: 1px;
+
+    overflow-x: auto;
+
+    white-space: nowrap;
+
+    text-shadow:
+        0 0 15px rgba(255, 255, 255, 0.15);
+
+    scrollbar-width: none;
+}
+
+
+.current-display::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* ---------- BUTTON GRID ---------- */
+
+.buttons {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 12px;
+}
+
+
+/* ---------- ALL BUTTONS ---------- */
+
+button {
+    height: 65px;
+
+    border: none;
+
+    border-radius: 18px;
+
+    outline: none;
+
+    color: #f8fafc;
+
+    font-size: 20px;
+
+    font-weight: 500;
+
+    cursor: pointer;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.12),
+            rgba(255, 255, 255, 0.055)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        0 7px 15px rgba(0, 0, 0, 0.22),
+        inset 0 1px 1px rgba(255, 255, 255, 0.06);
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        background 0.18s ease;
+}
+
+
+/* ---------- BUTTON SHINE ---------- */
+
+button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.12),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.5s ease;
+}
+
+
+button:hover::before {
+    left: 130%;
+}
+
+
+/* ---------- BUTTON HOVER ---------- */
+
+button:hover {
+    transform: translateY(-3px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.18),
+            rgba(255, 255, 255, 0.08)
+        );
+
+    box-shadow:
+        0 10px 22px rgba(0, 0, 0, 0.30),
+        0 0 15px rgba(139, 92, 246, 0.12);
+}
+
+
+/* ---------- BUTTON PRESS ---------- */
+
+button:active {
+    transform: scale(0.94) translateY(0);
+
+    box-shadow:
+        0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ---------- OPERATOR BUTTONS ---------- */
+
+.operator {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(139, 92, 246, 0.90),
+            rgba(109, 40, 217, 0.80)
+        );
+
+    border: 1px solid rgba(167, 139, 250, 0.45);
+
+    box-shadow:
+        0 7px 20px rgba(124, 58, 237, 0.30);
+}
+
+
+.operator:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(167, 139, 250, 1),
+            rgba(124, 58, 237, 0.95)
+        );
+
+    box-shadow:
+        0 10px 25px rgba(124, 58, 237, 0.45),
+        0 0 18px rgba(139, 92, 246, 0.25);
+}
+
+
+/* ---------- CLEAR BUTTON ---------- */
+
+.clear {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(239, 68, 68, 0.90),
+            rgba(185, 28, 28, 0.80)
+        );
+
+    border-color: rgba(248, 113, 113, 0.35);
+
+    box-shadow:
+        0 7px 20px rgba(239, 68, 68, 0.25);
+}
+
+
+.clear:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(248, 113, 113, 1),
+            rgba(220, 38, 38, 0.95)
+        );
+
+    box-shadow:
+        0 10px 25px rgba(239, 68, 68, 0.40);
+}
+
+
+/* ---------- DELETE BUTTON ---------- */
+
+.delete {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(6, 182, 212, 0.85),
+            rgba(8, 145, 178, 0.80)
+        );
+
+    border-color: rgba(103, 232, 249, 0.30);
+
+    box-shadow:
+        0 7px 20px rgba(6, 182, 212, 0.22);
+}
+
+
+.delete:hover {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(34, 211, 238, 1),
+            rgba(6, 182, 212, 0.95)
+        );
+
+    box-shadow:
+        0 10px 25px rgba(6, 182, 212, 0.40);
+}
+
+
+/* ---------- EQUAL BUTTON ---------- */
+
+.equals {
+    grid-column: span 2;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06b6d4,
+            #0891b2,
+            #7c3aed
+        );
+
+    background-size: 200% 200%;
+
+    border: 1px solid rgba(103, 232, 249, 0.45);
+
+    box-shadow:
+        0 8px 25px rgba(6, 182, 212, 0.25),
+        0 0 20px rgba(124, 58, 237, 0.15);
+
+    animation: equalGlow 4s ease infinite;
+}
+
+
+.equals:hover {
+    box-shadow:
+        0 12px 30px rgba(6, 182, 212, 0.40),
+        0 0 25px rgba(124, 58, 237, 0.30);
+}
+
+
+/* ---------- ZERO BUTTON ---------- */
+
+.zero {
+    grid-column: span 2;
+}
+
+
+/* ---------- ANIMATIONS ---------- */
+
+@keyframes calculatorAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(30px)
+            scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+@keyframes equalGlow {
+
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/* ---------- MOBILE RESPONSIVE ---------- */
+
+@media (max-width: 450px) {
+
+    body {
+        padding: 15px;
+    }
+
+
+    .calculator {
+        width: 100%;
+
+        max-width: 380px;
+
+        padding: 22px;
+
+        border-radius: 28px;
+    }
+
+
+    .calculator h1 {
+        font-size: 25px;
+    }
+
+
+    .display {
+        min-height: 115px;
+
+        padding: 17px;
+    }
+
+
+    .current-display {
+        font-size: 34px;
+    }
+
+
+    .buttons {
+        gap: 9px;
+    }
+
+
+    button {
+        height: 58px;
+
+        border-radius: 15px;
+
+        font-size: 18px;
+    }
+}
+
+
+/* ---------- VERY SMALL SCREENS ---------- */
+
+@media (max-width: 340px) {
+
+    .calculator {
+        padding: 17px;
+    }
+
+
+    button {
+        height: 53px;
+
+        font-size: 17px;
+    }
+
+
+    .current-display {
+        font-size: 30px;
+    }
+}
